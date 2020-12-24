@@ -43,23 +43,31 @@ smart enough to handle them.
 #### 3. 常见的错误编码样例
 1. 主路径放在了缩进的代码中，可读性差
 ```
-    foo, err := bar()
-    if err == nil {
-        // main procedure
-    }
+  foo, err := bar()
+  if err == nil {
+      // main procedure
+  }
 
-    // handle error
+  // handle error
 ```
 2. 不必要的返回值转换
 ```
-    err := foo()
-    if err != nil {
-        return err
-    }
+  err := foo()
+  if err != nil {
+      return err
+  }
 
-    return nil
+  return nil
 ```
-3. 未对复杂的错误处理流程做较好的封装，影响代码整洁性和可读性。如使用io.Reader读取文件行数和使用bufio的Scanner来读取
+3. 传递闭包外的变量到闭包中，变量值在闭包外被修改
+```
+for i := 0; i < 10; i++ {
+  go func() {
+    print(i, "\n")
+  }
+}
+```
+4. 未对复杂的错误处理流程做较好的封装，影响代码整洁性和可读性。如使用io.Reader读取文件行数和使用bufio的Scanner来读取
 
 #### 4. 提高Error的可定位性
 1. fmt.Errorf的方式 : 不能带上调用栈的上下文信息，Sentinel Error不兼容
